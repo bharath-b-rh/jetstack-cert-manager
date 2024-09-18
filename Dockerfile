@@ -12,7 +12,7 @@ RUN go build -tags $GO_BUILD_TAGS -o _output/cainjector cmd/cainjector/main.go
 RUN go build -tags $GO_BUILD_TAGS -o _output/controller cmd/controller/main.go
 RUN go build -tags $GO_BUILD_TAGS -o _output/webhook cmd/webhook/main.go
 
-FROM registry.access.redhat.com/ubi9-minimal:9.2
+FROM registry.redhat.io/rhel9-2-els/rhel:9.2-1327.1725390050
 
 COPY --from=builder /go/src/github.com/openshift/jetstack-cert-manager_output/acmesolver /app/cmd/acmesolver/acmesolver
 COPY --from=builder /go/src/github.com/openshift/jetstack-cert-manager_output/cainjector /app/cmd/cainjector/cainjector
