@@ -99,7 +99,10 @@ spec:
       description: Add built image into an OCI image index
       name: build-image-index
       type: string
-    - default: []
+    - default:
+        - RELEASE_VERSION='{{ target_branch }}'
+        - COMMIT_SHA='{{ revision }}'
+        - SOURCE_URL='{{ source_url }}'
       description: Array of --build-arg values ("arg=value" strings) for buildah
       name: build-args
       type: array
