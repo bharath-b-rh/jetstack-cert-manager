@@ -6,7 +6,7 @@ ENV GO_BUILD_TAGS "strictfipsruntime,openssl"
 ENV GOEXPERIMENT strictfipsruntime 
 ENV CGO_ENABLED 1
 
-make go-workspace
+RUN make go-workspace
 RUN go build -tags $GO_BUILD_TAGS -o _output/acmesolver cmd/acmesolver/main.go
 RUN go build -tags $GO_BUILD_TAGS -o _output/cainjector cmd/cainjector/main.go
 RUN go build -tags $GO_BUILD_TAGS -o _output/controller cmd/controller/main.go
