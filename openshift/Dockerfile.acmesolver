@@ -6,7 +6,7 @@ ENV GO_BUILD_TAGS "strictfipsruntime,openssl"
 ENV GOEXPERIMENT strictfipsruntime 
 ENV CGO_ENABLED 1
 
-RUN make go-workspace
+RUN make go-workspace && go mod vendor
 RUN cd cmd/acmesolver && go build -o _output/acmesolver -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS main.go
 RUN cd cmd/cainjector && go build -o _output/cainjector -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS main.go
 RUN cd cmd/controller && go build -o _output/controller -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS main.go
