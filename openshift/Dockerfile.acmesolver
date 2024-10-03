@@ -2,12 +2,12 @@ FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_golang_1.22
 ARG SOURCE_DIR="/go/src/github.com/openshift/jetstack-cert-manager"
 COPY . $SOURCE_DIR/
 
-ENV GO_BUILD_TAGS="strictfipsruntime,openssl"
-ENV GOEXPERIMENT="strictfipsruntime"
-ENV CGO_ENABLED="1"
+ENV GO_BUILD_TAGS=strictfipsruntime,openssl
+ENV GOEXPERIMENT=strictfipsruntime
+ENV CGO_ENABLED=1
 ENV GOFLAGS=""
 
-ARG GO_BUILD_FLAGS="-trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags ${GO_BUILD_TAGS}"
+ARG GO_BUILD_FLAGS=-trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags ${GO_BUILD_TAGS}
 
 RUN cd $SOURCE_DIR/cmd/acmesolver && go build -o $SOURCE_DIR/_output/acmesolver $GO_BUILD_FLAGS main.go
 RUN cd $SOURCE_DIR/cmd/cainjector && go build -o $SOURCE_DIR/_output/cainjector $GO_BUILD_FLAGS main.go
