@@ -7,7 +7,7 @@ ENV GOEXPERIMENT=strictfipsruntime
 ENV CGO_ENABLED=1
 ENV GOFLAGS=""
 
-ARG GO_BUILD_FLAGS=-trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags ${GO_BUILD_TAGS}
+ARG GO_BUILD_FLAGS="-trimpath -ldflags \'-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2\' -tags ${GO_BUILD_TAGS}"
 
 RUN cd $SOURCE_DIR/cmd/acmesolver && go build -o $SOURCE_DIR/_output/acmesolver $GO_BUILD_FLAGS main.go
 RUN cd $SOURCE_DIR/cmd/cainjector && go build -o $SOURCE_DIR/_output/cainjector $GO_BUILD_FLAGS main.go
@@ -15,6 +15,7 @@ RUN cd $SOURCE_DIR/cmd/controller && go build -o $SOURCE_DIR/_output/controller 
 RUN cd $SOURCE_DIR/cmd/webhook && go build -o $SOURCE_DIR/_output/webhook $GO_BUILD_FLAGS main.go
 
 FROM registry.redhat.io/rhel9-2-els/rhel:9.2-1362
+ARG SOURCE_DIR="/go/src/github.com/openshift/jetstack-cert-manager"
 COPY --from=builder $SOURCE_DIR/_output/acmesolver /app/cmd/acmesolver/acmesolver
 COPY --from=builder $SOURCE_DIR/_output/cainjector /app/cmd/cainjector/cainjector
 COPY --from=builder $SOURCE_DIR/_output/controller /app/cmd/controller/controller
