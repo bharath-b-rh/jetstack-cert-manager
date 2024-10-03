@@ -6,10 +6,11 @@ ENV GO_BUILD_TAGS "strictfipsruntime,openssl"
 ENV GOEXPERIMENT strictfipsruntime 
 ENV CGO_ENABLED 1
 
-RUN cd cmd/acmesolver && go build -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS -o _output/acmesolver main.go
-RUN cd cmd/cainjector && go build -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS -o _output/cainjector main.go
-RUN cd cmd/controller && go build -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS -o _output/controller main.go
-RUN cd cmd/webhook && go build -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS -o _output/webhook main.go
+RUN make go-workspace
+RUN cd cmd/acmesolver && go build -o _output/acmesolver -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS main.go
+RUN cd cmd/cainjector && go build -o _output/cainjector -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS main.go
+RUN cd cmd/controller && go build -o _output/controller -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS main.go
+RUN cd cmd/webhook && go build -o _output/webhook -trimpath -ldflags '-w -s -X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v1.15.0 -X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=7253cbd48b8905f06528f3d25e4d7dc4b975c9e2' -tags $GO_BUILD_TAGS main.go
 
 FROM registry.redhat.io/rhel9-2-els/rhel:9.2-1327.1725390050
 WORKDIR /go/src/github.com/openshift/jetstack-cert-manager
