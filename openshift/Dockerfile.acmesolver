@@ -3,7 +3,7 @@ ARG SOURCE_DIR="/go/src/github.com/openshift/jetstack-cert-manager"
 COPY . $SOURCE_DIR/
 
 ENV GO_BUILD_TAGS="strictfipsruntime,openssl"
-ENV GOEXPERIMENT="strictfipsruntime "
+ENV GOEXPERIMENT="strictfipsruntime"
 ENV CGO_ENABLED="1"
 ENV GOFLAGS=""
 
