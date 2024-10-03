@@ -1,7 +1,6 @@
 FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_golang_1.22 AS builder
 ARG SOURCE_DIR="/go/src/github.com/openshift/jetstack-cert-manager"
-WORKDIR $SOURCE_DIR/
-COPY . . 
+COPY . $SOURCE_DIR/
 
 ENV GO_BUILD_TAGS="strictfipsruntime,openssl"
 ENV GOEXPERIMENT="strictfipsruntime "
